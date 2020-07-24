@@ -6,6 +6,11 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+import VueAxios from "vue-axios"
+import axios from "axios"
+Vue.use(VueAxios, axios)
+
+
 // rem 开始
 import "./assets/rem.js"
 // rem 结束

@@ -1,15 +1,41 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
 
+
+import boss from "@/pages/boss.vue"
+import one from "@/pages/one.vue"
+import two from "@/pages/two.vue"
+import three from "@/pages/three.vue"
+import four from "@/pages/four.vue"
+
 export default new Router({
-  routes: [
+  mode: "history",
+  routes: [{
+      path: "/",
+      redirect: "/boss/one"
+    },
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: "/boss",
+      component: boss,
+      children: [{
+          path: "one",
+          component: one
+        },
+        {
+          path: "two",
+          component: two
+        },
+        {
+          path: "three",
+          component: three
+        },
+        {
+          path: "four",
+          component: four
+        },
+      ]
     }
   ]
 })
