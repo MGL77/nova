@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Boss />
+    <Header />
   </div>
 </template>
 <script>
-import Boss from "@/pages/boss.vue";
+import Header from "@/components/header.vue";
 export default {
   components: {
-    Boss,
+    Header,
   },
 };
 </script>

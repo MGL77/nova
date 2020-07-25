@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <Header /> 
     <router-view />
+    <topbottom />
   </div>
 </template>
 
 <script>
-import Header from "@/components/header.vue";
+import topbottom from "@/components/TopBottom.vue";
 export default {
   components: {
-    Header,
+    topbottom,
   },
 };
 </script>

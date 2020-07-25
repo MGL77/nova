@@ -1,21 +1,35 @@
 <template>
   <div class="header">
-    <img src="../assets/Bee_01_01.jpg" alt />
-    <div class="cheng">
-      <b>lativ</b>
-      <p>
-        <van-icon name="ellipsis" />
-        <van-icon name="stop-circle" />
-      </p>
+    <!-- 分类 -->
+    <div class="JJ">
+      <ul class="big">
+        <li
+          @click="UpBottom(index,item._id)"
+          v-for="(item,index) in list"
+          :key="item.id"
+          :class="{'active':iNow === index}"
+        >{{ item.title }}</li>
+      </ul>
     </div>
-    <van-search placeholder="请输入搜索关键词" input-align="center" />
-    <ul>
-      <li
-        @click="UpBottom(index)"
-        v-for="(item,index) in list"
-        :key="item.id"
-        :class="{'active':iNow === index}"
-      >{{ item.title }}</li>
+
+    <!-- 排序 -->
+    <ul class="sort">
+      <li>综合</li>
+      <li>销量</li>
+      <li>新品</li>
+      <li @click="sort1">价格</li>
+    </ul>
+
+    <!-- 渲染的数据 -->
+    <ul class="boss">
+      <li v-for="item in array" :key="item.id">
+        <img :src="item.s_pic" alt />
+        <b>{{ item.title }}</b>
+        <div class="J">
+          <p>{{ item.price }}</p>
+          <van-icon name="cart" />
+        </div>
+      </li>
     </ul>
   </div>
 </template>
@@ -25,22 +39,98 @@ export default {
     return {
       list: [],
       iNow: 0,
+      array: [],
+      sorts: true,
     };
   },
   methods: {
-    UpBottom(index) {
+    UpBottom(index, id) {
       this.iNow = index;
+      this.axios.get("../../static/json/list.json").then((msg) => {
+        let a = msg.data.result.filter((item) => {
+          return item.cid == id;
+        });
+        this.array = a;
+      });
     },
+
+    sort1() {
+      if (this.sorts == true) {
+        this.sorts = false;
+        this.array.sort((a, b) => {
+          return a.price - b.price;
+        });
+      } else {
+        this.sorts = true;
+        this.array.sort((a, b) => {
+          return b.price - a.price;
+        });
+      }
+    },
+    
   },
   async created() {
     let data = await this.axios.get("../../static/json/fenlei.json");
     this.list = data.data.result;
-    console.log(this.list);
+  },
+  mounted() {
+    this.axios.get("../../static/json/list.json").then((res) => {
+      let a = res.data.result;
+      this.array = a;
+    });
   },
 };
 </script>
 <style lang="less">
 .header {
+  .sort {
+    width: 4rem;
+    height: 0.4rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.2rem;
+    li {
+      margin: 0rem 0.16rem 0rem 0.1rem;
+      color: #444444;
+    }
+  }
+  .boss {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    li {
+      width: 1.4rem;
+      height: 2.4rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      img {
+        width: 1.4rem;
+        height: 1.6rem;
+        border-radius: 0.1rem;
+      }
+      b {
+        width: 1.4rem;
+        height: 0.3rem;
+        line-height: 0.3rem;
+      }
+      .J {
+        width: 1.4rem;
+        display: flex;
+        height: 0.3rem;
+        align-items: center;
+        justify-content: space-between;
+        p {
+          color: rgb(194, 20, 20);
+        }
+        .van-icon-cart::before {
+          content: "\F027";
+          color: #8b8a8a;
+        }
+      }
+    }
+  }
   .active {
     color: #000;
     border-bottom: 0.02rem solid #000;
@@ -56,49 +146,18 @@ export default {
     padding: 0rem 0.1rem 0rem 0.1rem;
     background-color: #fff;
   }
-  ul {
-    width: 3.84rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin: 0.1rem 0rem 0rem 0.1rem;
-    li {
-      margin-right: 0.26rem;
-      height: 0.3rem;
-      text-align: center;
-      line-height: 0.3rem;
-      color: #8b8787;
-    }
-  }
-  img {
+  .JJ {
     width: 4rem;
-  }
-  .cheng {
-    width: 3.74rem;
     height: 0.4rem;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0.04rem 0rem 0.04rem 0.1rem;
-    b {
-      font-size: 0.18rem;
-    }
-    p {
-      width: 0.8rem;
-      height: 0.3rem;
-      border-radius: 0.2rem;
-      border: 0.01rem solid #f5f5f5;
+    overflow: auto;
+    .big {
+      width: 7rem;
       display: flex;
-      align-items: center;
-      justify-content: space-around;
-      .van-icon-ellipsis::before {
-        content: "\F04E";
-        font-size: 0.16rem;
-      }
-      .van-icon-stop-circle::before {
-        content: "\F0C6";
-        font-size: 0.16rem;
+      height: 0.24rem;
+      margin-top: 0.14rem;
+      li {
+        color: #444444;
+        margin: 0rem 0.16rem 0rem 0.1rem;
       }
     }
   }

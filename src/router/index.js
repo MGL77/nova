@@ -9,12 +9,17 @@ import one from "@/pages/one.vue"
 import two from "@/pages/two.vue"
 import three from "@/pages/three.vue"
 import four from "@/pages/four.vue"
+import ss from "@/components/ss.vue"
 
 export default new Router({
   mode: "history",
   routes: [{
       path: "/",
       redirect: "/boss/one"
+    },
+    {
+      path:"/ss",
+      component:ss
     },
     {
       path: "/boss",

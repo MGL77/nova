@@ -10,6 +10,7 @@ import VueAxios from "vue-axios"
 import axios from "axios"
 Vue.use(VueAxios, axios)
 
+// Vue.prototype.$axios = axios
 
 // rem 开始
 import "./assets/rem.js"
@@ -23,6 +24,7 @@ Vue.use(Vant);
 new Vue({
   el: '#app',
   router,
+  axios,
   components: {
     App
   },
